@@ -5,7 +5,7 @@ import org.arghya.auth_app.model.UserRegistrationResponse;
 import org.arghya.auth_app.service.AuthenticationService;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("app/auth")
+@RestController("api/auth")
 public class AuthController {
 
     private AuthenticationService authenticationService;

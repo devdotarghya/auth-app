@@ -1,8 +1,5 @@
 package org.arghya.auth_app.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collections;
@@ -12,8 +9,8 @@ import java.util.stream.Collectors;
 
 import static org.arghya.auth_app.model.Permission.*;
 
-@AllArgsConstructor
 public enum Role {
+
     USER(Collections.emptySet()),
     ADMIN(Set.of(
             ADMIN_READ,
@@ -30,8 +27,15 @@ public enum Role {
             CUSTOMER_UPDATE,
             CUSTOMER_DELETE));
 
-    @Getter
+    Role(Set<Permission> permissions) {
+        this.permissions = permissions;
+    }
+
     private final Set<Permission> permissions;
+
+    public Set<Permission> getPermissions() {
+        return permissions;
+    }
 
     public List<SimpleGrantedAuthority> getGrantedAuthorities() {
         return getPermissions()

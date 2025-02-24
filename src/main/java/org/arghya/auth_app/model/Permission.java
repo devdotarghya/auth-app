@@ -1,9 +1,5 @@
 package org.arghya.auth_app.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 public enum Permission {
     CUSTOMER_READ("customer:read"),
     CUSTOMER_WRITE("customer:write"),
@@ -14,7 +10,14 @@ public enum Permission {
     ADMIN_UPDATE("admin:update"),
     ADMIN_DELETE("admin:delete");
 
-    @Getter
+    Permission(String permission) {
+        this.permission = permission;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
     private final String permission;
 
 }
