@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static org.arghya.auth_app.model.Permission.*;
 import static org.arghya.auth_app.model.Role.*;
@@ -29,7 +31,8 @@ import static org.springframework.http.HttpMethod.GET;
 public class SecurityConfig {
 
     private static final String[] WHITE_URLs = {
-            "api/auth/**"
+            "api/auth/**",
+            "h2-console/**"
     };
 
     @Autowired
@@ -62,5 +65,19 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
 
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:8080")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);  // if you are using cookies or authentication headers
+            }
+        };
     }
 }

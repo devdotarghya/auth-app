@@ -26,7 +26,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(userRegistrationRequest.getPassword()))
                 .build();
         UserEntity savedUser = userRepository.save(userEntity);
-        return Optional.ofNullable(userEntity)
+        return Optional.ofNullable(savedUser)
                 .map(UserRegistrationResponse::new)
                 .orElseThrow(()-> new Exception("user could not be registered"));
     }

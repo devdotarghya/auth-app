@@ -13,8 +13,9 @@ import java.io.IOException;
 public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if(request.getServletPath().contains("api/auth")) {
+        if(request.getServletPath().contains("api/auth") || request.getServletPath().contains("h2-console")) {
             filterChain.doFilter(request, response);
+            return;
         }
     }
 }
