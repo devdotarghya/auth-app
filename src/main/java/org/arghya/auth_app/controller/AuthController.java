@@ -1,7 +1,8 @@
 package org.arghya.auth_app.controller;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import org.arghya.auth_app.model.AuthenticationRequest;
+import org.arghya.auth_app.model.AuthenticationResponse;
 import org.arghya.auth_app.model.UserRegistrationRequest;
 import org.arghya.auth_app.model.UserRegistrationResponse;
 import org.arghya.auth_app.service.AuthenticationService;
@@ -22,5 +23,10 @@ public class AuthController {
     @PostMapping("/register")
     public HttpEntity<UserRegistrationResponse> register(@RequestBody UserRegistrationRequest userRegistrationRequest) throws Exception {
         return ResponseEntity.ok(authenticationService.register(userRegistrationRequest));
+    }
+
+    @PostMapping("/login")
+    public HttpEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+        return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
     }
 }

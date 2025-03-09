@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.annotation.Bean;
 
 @Data
 @Setter
@@ -15,5 +14,6 @@ public class UserRegistrationRequest {
     private String firstName;
     private String lastName;
     private String password;
+    private Role role;
 
 }
