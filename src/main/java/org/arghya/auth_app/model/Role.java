@@ -11,7 +11,12 @@ import static org.arghya.auth_app.model.Permission.*;
 
 public enum Role {
 
-    USER(Collections.emptySet()),
+    USER(Set.of(
+            USER_READ,
+            USER_WRITE,
+            USER_UPDATE,
+            USER_DELETE
+    )),
     ADMIN(Set.of(
             ADMIN_READ,
             ADMIN_WRITE,
@@ -38,10 +43,12 @@ public enum Role {
     }
 
     public List<SimpleGrantedAuthority> getGrantedAuthorities() {
-        return getPermissions()
+        var authorities = getPermissions()
                 .stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
                 .collect(Collectors.toList());
+        authorities.add(new SimpleGrantedAuthority("ROLE_" +  this.name()));
+        return authorities;
     }
 
 }

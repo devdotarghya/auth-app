@@ -34,8 +34,8 @@ import static org.springframework.http.HttpMethod.GET;
 public class SecurityConfig {
 
     private static final String[] WHITE_URLs = {
-            "api/auth/**",
-            "h2-console/**"
+            "/api/auth/**",
+            "/h2-console/**"
     };
 
     @Autowired
@@ -67,11 +67,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_URLs).permitAll()
-                                .requestMatchers("api/customer/**").hasAnyRole(ADMIN.name(), CUSTOMER.name())
-                                .requestMatchers(GET,"api/customer/**").hasAnyAuthority(ADMIN_READ.name(), CUSTOMER_READ.name())
+                                .requestMatchers("/api/user/**").hasAnyRole(ADMIN.name(), CUSTOMER.name())
+                                .requestMatchers(GET,"/api/user/**").hasAnyAuthority(ADMIN_READ.name(), CUSTOMER_READ.name())
                                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
 

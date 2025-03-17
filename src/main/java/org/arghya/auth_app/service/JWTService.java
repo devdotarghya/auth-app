@@ -54,6 +54,23 @@ public class JWTService {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+    public String extractUserName(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String userName = extractUserName(token);
+        return userDetails.getUsername().equals(userName)
+                && isTokenNotExpired(token);
+    }
+
+    private boolean isTokenNotExpired(String token) {
+        return extractExpiration(token).after(new Date());
+    }
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSecretKey);
         return Keys.hmacShaKeyFor(keyBytes);
